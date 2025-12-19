@@ -1,0 +1,5 @@
+# Ignore bytecode and executable files
+target/
+
+# Ignore Idea customizations
+.idea
