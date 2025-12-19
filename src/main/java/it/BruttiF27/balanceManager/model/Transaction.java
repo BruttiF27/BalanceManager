@@ -2,7 +2,9 @@ package it.BruttiF27.balanceManager.model;
 
 import java.time.LocalDate;
 
-/*
+//come per BalanceService, la javadoc! se proprio devi fare un commento almeno rendilo strutturalmente utile!
+// non è sempre vera per ogni commento sta cosa, ma ponitela la domanda. Se stai descrivendo un entità o spiegando COME un metodo lavora, allora documentalo!
+/**
  *  The class defines how a transaction is supposed to look like. It's got:
  *  - Person
  *  - Date
@@ -10,7 +12,7 @@ import java.time.LocalDate;
  *  - Small description
  */
 
-public class Transaction {
+public class Transaction { // questa classe poteva tranquillamente essere un record https://www.baeldung.com/java-record-keyword
 
     // This class handles data that it's supposed to stay constant. Keyword final required.
     private final Person requestingUser;
