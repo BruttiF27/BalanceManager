@@ -11,15 +11,15 @@ public class Account {
     private final List<Transaction> transactionList = new ArrayList<>();
 
     // ----- Name methods -----
-    public Account (String name) { this.accountName = name; }
+    public Account (String name) { this.accountName = name; } // io un controllino per null lo metterei, che non si sa mai (e lo aggiungerei ai test con eccezioni)
     public String getAccountName () { return accountName; }
 
     // ----- Member methods -----
-    public void addMember (Person person) { groupMembers.add(person); }
-    public List<Person> getGroupMembers () { return List.copyOf(groupMembers); }
+    public void addMember (Person person) { groupMembers.add(person); } // io un controllino per null lo metterei, che non si sa mai (e lo aggiungerei ai test con eccezioni)
+    public List<Person> getGroupMembers () { return List.copyOf(groupMembers); } // se vuoi una vista immutabile di una lista, è meglio usare Collections.unmodifiableList(list);
 
     // ----- Transaction methods -----
-    public void addTransaction (Transaction transaction) { transactionList.add(transaction); }
-    public List<Transaction> getTransactionList () { return List.copyOf(transactionList); }
+    public void addTransaction (Transaction transaction) { transactionList.add(transaction); } // io un controllino per null lo metterei, che non si sa mai (e lo aggiungerei ai test con eccezioni)
+    public List<Transaction> getTransactionList () { return List.copyOf(transactionList); } // se vuoi una vista immutabile di una lista, è meglio usare Collections.unmodifiableList(list);
 
 }
