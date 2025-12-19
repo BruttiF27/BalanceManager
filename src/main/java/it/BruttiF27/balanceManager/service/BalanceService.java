@@ -7,7 +7,8 @@ import java.util.function.Predicate;
 import it.BruttiF27.balanceManager.model.Account;
 import it.BruttiF27.balanceManager.model.Transaction;
 
-/*
+// se fai doppio asterisco, lo conta come commento per la javadoc. Se hai l'ide è carino perché puoi leggere i tuoi stessi commenti semplicemente in hover col mouse ;)
+/**
  *  Class used for the analysis of the balances:
  *  - monthly/yearly/allTime totals
  *  - per-person spending
@@ -38,6 +39,6 @@ public class BalanceService {
                 .mapToDouble(Transaction::getAmount).sum();
     }
 
-    // TODO Functions to calc per-person spending monthly, yearly and allTime
+    // TODO Functions to calc per-person spending monthly, yearly and allTime // ma lo hai già fatto, non è chiaro questo TODO
 
 }
