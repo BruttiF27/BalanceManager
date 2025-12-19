@@ -18,6 +18,7 @@ import it.BruttiF27.balanceManager.model.Transaction;
 
 public class BalanceService {
 
+    // potresti documentare anche i singoli metodi, che dici? ;)
     public double calcMonthlyBalance (Account acc, YearMonth month) {
         return sumTransactions(acc, t -> YearMonth.from(t.getTransactionDate()).equals(month));
     }
