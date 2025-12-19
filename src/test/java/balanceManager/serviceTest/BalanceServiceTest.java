@@ -20,6 +20,8 @@ public class BalanceServiceTest {
         BalanceService bsTest = new BalanceService();
 
         // Instantiate three Person objects
+        // Valuta l'idea di instanziare gli oggetti Person in un @Setup o alla peggio in un @BeforeAll così da instanziare una volta sola tutto
+        // ref: https://www.baeldung.com/junit-before-beforeclass-beforeeach-beforeall
         Person p1 = new Person("Oney", "Mime");
         Person p2 = new Person("Tina", "Latt");
         Person p3 = new Person("Federico", "Brutti");
