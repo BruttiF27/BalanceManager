@@ -3,7 +3,7 @@ package it.BruttiF27.balanceManager.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+// sono spariti dei commenti che ti avevo lasciato o sono flashato io? solite cose sulle liste immutabili del getter e sul fatto che potrebbe essere un record
 public class Account {
 
     // ----- Fields -----
