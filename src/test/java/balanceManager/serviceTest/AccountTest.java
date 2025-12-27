@@ -20,6 +20,7 @@ public class AccountTest {
         accountTest = new Account("familyAccount");
         accountTest.addMember(new Person("Mime", "Oney"));
         accountTest.addTransaction(new Transaction(accountTest.getGroupMembers().getFirst(), LocalDate.now(), -60.00, "Test1"));
+    // cerca di rendere autonoma ogni operazione in caso di setup, così da riciclare variabili e non dipendere troppo da metodi che dovrebbero piuttosto essere oggetto di test e non di setup, tldr: preferisci i costruttori ai getter
     }
 
     @Test
