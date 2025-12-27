@@ -14,7 +14,7 @@ import it.BruttiF27.balanceManager.service.BalanceService;
 
 public class BalanceServiceTest {
 
-    // Required fields
+    // Required fields - non hai bisogno di static, il tuo contesto non lo richiede mai (ragionaci, anche i test sono oggetti)
     private static Account accountTest;
     private static BalanceService bsTest;
 
