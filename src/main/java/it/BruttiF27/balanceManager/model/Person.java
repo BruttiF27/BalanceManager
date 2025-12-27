@@ -1,6 +1,6 @@
 package it.BruttiF27.balanceManager.model;
 
-/*
+/**
  *  This class defines the entities that are allowed to ask for money
  */
 

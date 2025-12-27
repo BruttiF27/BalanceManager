@@ -2,6 +2,7 @@ package it.BruttiF27.balanceManager.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Account {
 
@@ -11,15 +12,21 @@ public class Account {
     private final List<Transaction> transactionList = new ArrayList<>();
 
     // ----- Name methods -----
-    public Account (String name) { this.accountName = name; } // io un controllino per null lo metterei, che non si sa mai (e lo aggiungerei ai test con eccezioni)
-    public String getAccountName () { return accountName; }
+    public Account (String name) {
+        this.accountName = Objects.requireNonNull(name);
+    }
+    public String getAccountName () { return this.accountName; }
 
     // ----- Member methods -----
-    public void addMember (Person person) { groupMembers.add(person); } // io un controllino per null lo metterei, che non si sa mai (e lo aggiungerei ai test con eccezioni)
-    public List<Person> getGroupMembers () { return List.copyOf(groupMembers); } // se vuoi una vista immutabile di una lista, è meglio usare Collections.unmodifiableList(list);
+    public void addMember (Person person) {
+        groupMembers.add(Objects.requireNonNull(person));
+    }
+    public List<Person> getGroupMembers () { return List.copyOf(groupMembers); }
 
     // ----- Transaction methods -----
-    public void addTransaction (Transaction transaction) { transactionList.add(transaction); } // io un controllino per null lo metterei, che non si sa mai (e lo aggiungerei ai test con eccezioni)
-    public List<Transaction> getTransactionList () { return List.copyOf(transactionList); } // se vuoi una vista immutabile di una lista, è meglio usare Collections.unmodifiableList(list);
+    public void addTransaction (Transaction transaction) {
+        transactionList.add(Objects.requireNonNull(transaction));
+    }
+    public List<Transaction> getTransactionList () { return List.copyOf(transactionList); }
 
 }

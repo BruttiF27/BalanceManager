@@ -1,6 +1,7 @@
 package balanceManager.serviceTest;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -13,64 +14,44 @@ import it.BruttiF27.balanceManager.service.BalanceService;
 
 public class BalanceServiceTest {
 
-    @Test
-    void calcCorrectMonthlyBalance () {
-        // Instantiate objects for Account and BalanceService
-        Account accountTest = new Account("PallePisello");
-        BalanceService bsTest = new BalanceService();
+    // Required fields
+    private static Account accountTest;
+    private static BalanceService bsTest;
 
-        // Instantiate three Person objects
-        // Valuta l'idea di instanziare gli oggetti Person in un @Setup o alla peggio in un @BeforeAll così da instanziare una volta sola tutto
-        // ref: https://www.baeldung.com/junit-before-beforeclass-beforeeach-beforeall
-        Person p1 = new Person("Oney", "Mime");
-        Person p2 = new Person("Tina", "Latt");
-        Person p3 = new Person("Federico", "Brutti");
+    @BeforeEach
+    void testSetup () {
+        // Instantiate objects for Account and BalanceService
+        accountTest = new Account("FamilyAccount");
+        bsTest = new BalanceService();
+
+        // Add members to the account
+        accountTest.addMember(new Person("Mime", "Oney"));
+        accountTest.addMember(new Person("Lat", "Tina"));
+        accountTest.addMember(new Person("John", "Magic"));
 
         // Add transactions to the list
-        accountTest.addTransaction(new Transaction(p1, LocalDate.now(), -60.00, "Test1"));
-        accountTest.addTransaction(new Transaction(p2, LocalDate.now(), -40.00, "Test2"));
-        accountTest.addTransaction(new Transaction(p3, LocalDate.now(), 100.00, "Test2"));
+        accountTest.addTransaction(new Transaction(accountTest.getGroupMembers().getFirst(),
+                LocalDate.now(), -60.00, "Test1"));
+        accountTest.addTransaction(new Transaction(accountTest.getGroupMembers().get(1),
+                LocalDate.now(), -40.00, "Test2"));
+        accountTest.addTransaction(new Transaction(accountTest.getGroupMembers().get(2),
+                LocalDate.now(), 100.00, "Test3"));
+    }
 
+    @Test
+    void calcCorrectMonthlyBalance () {
         // If the result equals 0, the calcs are correct TODO CHANGE YEARMONTH TEST
         assertEquals(0, bsTest.calcMonthlyBalance(accountTest, YearMonth.from(LocalDate.now())));
     }
 
     @Test
     void calcCorrectYearlyBalance () {
-        // Instantiate objects for Account and BalanceService
-        Account accountTest = new Account("PallePisello");
-        BalanceService bsTest = new BalanceService();
-
-        // Instantiate three Person objects
-        Person p1 = new Person("Oney", "Mime");
-        Person p2 = new Person("Tina", "Latt");
-        Person p3 = new Person("Federico", "Brutti");
-
-        // Add transactions to the list
-        accountTest.addTransaction(new Transaction(p1, LocalDate.now(), -60.00, "Test1"));
-        accountTest.addTransaction(new Transaction(p2, LocalDate.now(), -40.00, "Test2"));
-        accountTest.addTransaction(new Transaction(p3, LocalDate.now(), 100.00, "Test2"));
-
         // If the result equals 0, the calcs are correct TODO CHANGE YEAR TEST
         assertEquals(0, bsTest.calcYearlyBalance(accountTest, Year.from(LocalDate.now())));
     }
 
     @Test
     void calcCorrectAllTimeBalance () {
-        // Instantiate objects for Account and BalanceService
-        Account accountTest = new Account("PallePisello");
-        BalanceService bsTest = new BalanceService();
-
-        // Instantiate three Person objects
-        Person p1 = new Person("Oney", "Mime");
-        Person p2 = new Person("Tina", "Latt");
-        Person p3 = new Person("Federico", "Brutti");
-
-        // Add transactions to the list
-        accountTest.addTransaction(new Transaction(p1, LocalDate.now(), -60.00, "Test1"));
-        accountTest.addTransaction(new Transaction(p2, LocalDate.now(), -40.00, "Test2"));
-        accountTest.addTransaction(new Transaction(p3, LocalDate.now(), 100.00, "Test2"));
-
         // If the result equals 0, the calcs are correct
         assertEquals(0, bsTest.calcAllTimeBalance(accountTest));
     }
