@@ -16,7 +16,8 @@ public record Transaction (
         double amount,
         String description) {
 
-    public String transactionFormat () {
+    @Override // faccio io prima, anche in un record valgono le stesse regole di ereditarietà delle classi, i record sono classi dopotutto
+    public String toString() {
         return "User: " + requestingUser + " - Date: " + transactionDate +
                 "\nAmount: " + amount +
                 "\nReason: " + description;
