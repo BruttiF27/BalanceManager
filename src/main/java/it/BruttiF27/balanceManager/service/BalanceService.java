@@ -52,9 +52,10 @@ public class BalanceService {
         // Stream through acc's transactionList
         return acc.getTransactionList().stream()
                 // Filter out the elements where !filter
-                .filter(filter)
+                .filter(filter) // fai il contratio del commento di sopra
                 // Convert every amount variable in transactionList to a double type, then sum them
-                .mapToDouble(Transaction::amount).sum();
+                .mapToDouble(Transaction::amount)
+                .sum(); // stavolta lo modifico io, negli stream di solito anche le chiusure si mettono a riga nuova, per una questione di git history (in caso ti spiego a voce, tu chiedi)
     }
 
     // TODO Functions to calc per-person (not per-account) spending monthly, yearly and allTime
