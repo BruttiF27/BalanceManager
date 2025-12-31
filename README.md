@@ -1,3 +1,24 @@
-This small project is about making an application to track transactions from a common budget. Ideally, it can be used by one or more people.
+# Description
+BalanceManager is a small Java project that aims to make a record of transactions from a common budget.
 
-A better and more explicative description will be put up as soon as possible.
+# Features
+- Will have some, eventually
+
+# How to install
+- Not ready yet
+
+# How to run
+- Not ready yet
+
+# Tools used
+- Nothing special yet
+
+# Roadmap
+Backend:
+- A more solid and safe code structure
+- More tests
+- More error handling
+
+Frontend:
+- Interactive GUI
+- Graphs
