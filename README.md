@@ -18,6 +18,7 @@ Backend:
 - A more solid and safe code structure
 - More tests
 - More error handling
+- Using JSON files to store data
 
 Frontend:
 - Interactive GUI
