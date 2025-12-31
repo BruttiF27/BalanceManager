@@ -14,9 +14,12 @@ import it.BruttiF27.balanceManager.service.BalanceService;
 
 public class BalanceServiceTest {
 
-    // Required fields - non hai bisogno di static, il tuo contesto non lo richiede mai (ragionaci, anche i test sono oggetti)
-    private static Account accountTest;
-    private static BalanceService bsTest;
+    // Required fields
+    private Account accountTest;
+    private BalanceService bsTest;
+    private Person p1;
+    private Person p2;
+    private Person p3;
 
     @BeforeEach
     void testSetup () {
@@ -24,36 +27,53 @@ public class BalanceServiceTest {
         accountTest = new Account("FamilyAccount");
         bsTest = new BalanceService();
 
-        // Add members to the account
-        accountTest.addMember(new Person("Mime", "Oney"));
-        accountTest.addMember(new Person("Lat", "Tina"));
-        accountTest.addMember(new Person("John", "Magic"));
+        p1 = new Person("Mime", "Oney");
+        p2 = new Person("Lat", "Tina");
+        p3 = new Person("John", "Magic");
 
         // Add transactions to the list
-        accountTest.addTransaction(new Transaction(accountTest.getGroupMembers().getFirst(),
-                LocalDate.now(), -60.00, "Test1"));
-        accountTest.addTransaction(new Transaction(accountTest.getGroupMembers().get(1),
-                LocalDate.now(), -40.00, "Test2"));
-        accountTest.addTransaction(new Transaction(accountTest.getGroupMembers().get(2),
-                LocalDate.now(), 100.00, "Test3"));
+        accountTest.addTransaction(new Transaction(p1,
+                LocalDate.of(2025, 12, 25), -60.00, "Test1"));
+        accountTest.addTransaction(new Transaction(p2,
+                LocalDate.of(2024, 12, 10), -40.00, "Test2"));
+        accountTest.addTransaction(new Transaction(p3,
+                LocalDate.of(2001, 9, 27), 100.00, "Test3"));
     }
 
     @Test
     void calcCorrectMonthlyBalance () {
-        // If the result equals 0, the calcs are correct TODO CHANGE YEARMONTH TEST
-        assertEquals(0, bsTest.calcMonthlyBalance(accountTest, YearMonth.from(LocalDate.now())));
+        // If the result equals -60.00, the calculations are correct
+        assertEquals(-60.00, bsTest.calcMonthlyBalance(accountTest, YearMonth.of(2025, 12)));
+    }
+
+    @Test
+    void calcCorrectPersonMonthlyBalance () {
+        // If the result equals -60.00, the calculations are correct
+        assertEquals(-60.00, bsTest.calcMonthlyBalance(accountTest, YearMonth.of(2025, 12), p1));
     }
 
     @Test
     void calcCorrectYearlyBalance () {
-        // If the result equals 0, the calcs are correct TODO CHANGE YEAR TEST
-        assertEquals(0, bsTest.calcYearlyBalance(accountTest, Year.from(LocalDate.now())));
+        // If the result equals 100.00, the calculations are correct
+        assertEquals(100.00, bsTest.calcYearlyBalance(accountTest, Year.of(2001)));
+    }
+
+    @Test
+    void calcCorrectPersonYearlyBalance () {
+        // If the result equals -40.00, the calculations are correct
+        assertEquals(-40.00, bsTest.calcYearlyBalance(accountTest, Year.of(2024), p2));
     }
 
     @Test
     void calcCorrectAllTimeBalance () {
-        // If the result equals 0, the calcs are correct
+        // If the result equals 0, the calculations are correct
         assertEquals(0, bsTest.calcAllTimeBalance(accountTest));
+    }
+
+    @Test
+    void calcCorrectPersonAllTimeBalance () {
+        // If the result equals 100.00, the calculations are correct
+        assertEquals(100.00, bsTest.calcAllTimeBalance(accountTest, p3));
     }
 
 }

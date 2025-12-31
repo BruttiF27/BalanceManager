@@ -5,6 +5,7 @@ import java.time.YearMonth;
 import java.util.function.Predicate;
 
 import it.BruttiF27.balanceManager.model.Account;
+import it.BruttiF27.balanceManager.model.Person;
 import it.BruttiF27.balanceManager.model.Transaction;
 
 /**
@@ -27,6 +28,17 @@ public class BalanceService {
     }
 
     /**
+     * Calculates the monthly balance of a member of the given account
+     * @param acc       The account
+     * @param month     The month
+     * @param member    The account member
+     */
+    public double calcMonthlyBalance (Account acc, YearMonth month, Person member) {
+        return sumTransactions(acc, t ->
+            YearMonth.from(t.transactionDate()).equals(month) && t.requestingUser().equals(member));
+    }
+
+    /**
      * Calculates the yearly balance of the given account
      * @param acc   The account
      * @param year  The year
@@ -36,11 +48,29 @@ public class BalanceService {
     }
 
     /**
+     * Calculates the yearly balance of a member of the given account
+     * @param acc       The account
+     * @param year      The year
+     * @param member    The account member
+     */
+    public double calcYearlyBalance (Account acc, Year year, Person member) {
+        return sumTransactions(acc, t ->
+                Year.from(t.transactionDate()).equals(year) && t.requestingUser().equals(member));
+    }
+
+    /**
      * Calculates the total balance of the given account
      * @param acc   The account
      */
-    public double calcAllTimeBalance (Account acc) {
-        return sumTransactions(acc, t -> true);
+    public double calcAllTimeBalance (Account acc) { return sumTransactions(acc, t -> true); }
+
+    /**
+     * Calculates the total balance of a member of the given account
+     * @param acc       The account
+     * @param member    The account member
+     */
+    public double calcAllTimeBalance (Account acc, Person member) {
+        return sumTransactions(acc, t -> t.requestingUser().equals(member));
     }
 
     /**
@@ -51,13 +81,12 @@ public class BalanceService {
     private double sumTransactions (Account acc, Predicate<Transaction> filter) {
         // Stream through acc's transactionList
         return acc.getTransactionList().stream()
-                // Filter out the elements where !filter
-                .filter(filter) // fai il contratio del commento di sopra
-                // Convert every amount variable in transactionList to a double type, then sum them
+                // Filter out the elements where the filter condition is verified
+                .filter(filter)
+                // Convert every amount variable in transactionList to a double type
                 .mapToDouble(Transaction::amount)
-                .sum(); // stavolta lo modifico io, negli stream di solito anche le chiusure si mettono a riga nuova, per una questione di git history (in caso ti spiego a voce, tu chiedi)
+                // Sum them all
+                .sum();
     }
-
-    // TODO Functions to calc per-person (not per-account) spending monthly, yearly and allTime
 
 }
