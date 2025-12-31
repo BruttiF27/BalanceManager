@@ -30,6 +30,9 @@ public class BalanceServiceTest {
         p1 = new Person("Mime", "Oney");
         p2 = new Person("Lat", "Tina");
         p3 = new Person("John", "Magic");
+        accountTest.addMember(p1);
+        accountTest.addMember(p2);
+        accountTest.addMember(p3);
 
         // Add transactions to the list
         accountTest.addTransaction(new Transaction(p1,
@@ -40,39 +43,33 @@ public class BalanceServiceTest {
                 LocalDate.of(2001, 9, 27), 100.00, "Test3"));
     }
 
-    @Test
+    @Test // If the result equals -60.00, the calculations are correct
     void calcCorrectMonthlyBalance () {
-        // If the result equals -60.00, the calculations are correct
         assertEquals(-60.00, bsTest.calcMonthlyBalance(accountTest, YearMonth.of(2025, 12)));
     }
 
-    @Test
+    @Test // If the result equals -60.00, the calculations are correct
     void calcCorrectPersonMonthlyBalance () {
-        // If the result equals -60.00, the calculations are correct
         assertEquals(-60.00, bsTest.calcMonthlyBalance(accountTest, YearMonth.of(2025, 12), p1));
     }
 
-    @Test
+    @Test // If the result equals 100.00, the calculations are correct
     void calcCorrectYearlyBalance () {
-        // If the result equals 100.00, the calculations are correct
         assertEquals(100.00, bsTest.calcYearlyBalance(accountTest, Year.of(2001)));
     }
 
-    @Test
+    @Test // If the result equals -40.00, the calculations are correct
     void calcCorrectPersonYearlyBalance () {
-        // If the result equals -40.00, the calculations are correct
         assertEquals(-40.00, bsTest.calcYearlyBalance(accountTest, Year.of(2024), p2));
     }
 
-    @Test
+    @Test // If the result equals 0, the calculations are correct
     void calcCorrectAllTimeBalance () {
-        // If the result equals 0, the calculations are correct
         assertEquals(0, bsTest.calcAllTimeBalance(accountTest));
     }
 
-    @Test
+    @Test // If the result equals 100.00, the calculations are correct
     void calcCorrectPersonAllTimeBalance () {
-        // If the result equals 100.00, the calculations are correct
         assertEquals(100.00, bsTest.calcAllTimeBalance(accountTest, p3));
     }
 
