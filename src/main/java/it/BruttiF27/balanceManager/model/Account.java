@@ -25,19 +25,20 @@ public class Account {
                 throw new IllegalArgumentException("Person is already a member");
             }
         }
-
+        // sai come si chiama un List<> che non ammette duplicati by-default? Set<>
         groupMembers.add(Objects.requireNonNull(person));
     }
-    public List<Person> getGroupMembers () { return List.copyOf(groupMembers); }
+    public List<Person> getGroupMembers () { return List.copyOf(groupMembers); } // vuoi rendere la lista modificabile anche se non produce side effects? ha senso?
 
     // ----- Transaction methods -----
     public void addTransaction (Transaction transaction) {
+        // visto che lo riusi, perché non metti in una variabile requestingUser() ?
         if (!groupMembers.contains(transaction.requestingUser())) {
-            throw new IllegalArgumentException("Not a member of the account");
+            throw new IllegalArgumentException("Not a member of the account"); // pro-tip: definisci le tue personali eccezioni in un package apposito. A quelle semmai fai estendere il giusto tipo di eccezione. Il messaggio dovrebbe indicare specifiche aggiuntive, non specificare il tipo concreto di eccezione
         }
 
         if (transaction.amount() == 0) {
-            throw new IllegalArgumentException("Empty transaction");
+            throw new IllegalArgumentException("Empty transaction"); // fai bene attenzione: qui basta avere un TransactionException con messaggi diversi in base al contesto, anche se puoi esagerare e prevedere specifiche più intensive
         }
 
         if (transaction.transactionDate().isAfter(LocalDate.now())) {
@@ -46,14 +47,14 @@ public class Account {
 
         // Check every member and do ++ to the transaction count of the requester.
         for (Person groupMember : groupMembers) {
-            if (Objects.equals(groupMember, transaction.requestingUser())) {
+            if (groupMember.equals(transaction.requestingUser())) { // belle le classi di utility, ma davvero qua groupMember è non-null per definizione, quindi puoi tranquillamente usare equals
                 groupMember.increaseTransactionCount();
                 break;
             }
         }
 
-        transactionList.add(Objects.requireNonNull(transaction));
+        transactionList.add(Objects.requireNonNull(transaction)); // che succede a riga 36 se transaction è null? mi sa che è tardi per questo controllo
     }
-    public List<Transaction> getTransactionList () { return Collections.unmodifiableList(transactionList); }
+    public List<Transaction> getTransactionList () { return Collections.unmodifiableList(transactionList); } //ottimo, ricorda che unmodifiableList rende non modificabile il riferimento che viene tornato, non fa side-effect dunque la collezione rimane modificabile concretamente
 
 }
