@@ -62,7 +62,7 @@ public class BalanceService {
      * Calculates the total balance of the given account
      * @param acc   The account
      */
-    public double calcAllTimeBalance (Account acc) { return sumTransactions(acc, t -> true); }
+    public double calcAllTimeBalance (Account acc) { return sumTransactions(acc); }
 
     /**
      * Calculates the total balance of a member of the given account
@@ -87,6 +87,14 @@ public class BalanceService {
                 .mapToDouble(Transaction::amount)
                 // Sum them all
                 .sum();
+    }
+
+    // never heard about overloading?
+    // ho riscritto il metodo solo per efficienza, fare un filter con tutti i campi a true è sostanzialmente inutile
+    // per tutti gli altri casi invece va benissimo avere il predicate in aggiunta
+    // son 3 operazioni in croce, non le ho messe a capo per quello. Se a te aiuta, ritornale a capo pure senza problemi
+    private double sumTransactions(Account acc){
+        return acc.getTransactionList().stream().mapToDouble(Transaction::amount).sum();
     }
 
 }
