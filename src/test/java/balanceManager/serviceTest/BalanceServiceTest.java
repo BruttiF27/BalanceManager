@@ -2,7 +2,6 @@ package balanceManager.serviceTest;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.Year;
@@ -12,14 +11,17 @@ import it.BruttiF27.balanceManager.model.Person;
 import it.BruttiF27.balanceManager.model.Transaction;
 import it.BruttiF27.balanceManager.service.BalanceService;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+//non so se hai impostazioni strane sull'ide, ma di solito gli import statici si segnano alla fine della lista di import
+
 public class BalanceServiceTest {
 
     // Required fields
     private Account accountTest;
     private BalanceService bsTest;
-    private Person p1;
-    private Person p2;
-    private Person p3;
+    private Person p1; // rinomina ste persone con il loro nome, cerca di evitare nomi poco descrittivi.
+    private Person p2; // Java è un linguaggio molto verboso, siilo anche tu nello scrivere
+    private Person p3; // tanto i nomi di variabile sono gratuiti e vengono sostituiti tutti dal compiler in maniera già ottimizzata
 
     @BeforeEach
     void testSetup () {
