@@ -1,60 +1,80 @@
 package it.BruttiF27.balanceManager.model;
 
+import it.BruttiF27.balanceManager.exceptions.TransactionException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
+/**
+ * Class used to store account data as well as defining the dynamics
+ */
 
 public class Account {
 
-    // ----- Fields -----
+    /**
+     * Stores the name of the account
+     */
     private final String accountName;
-    private final List<Person> groupMembers = new ArrayList<>();
+    /**
+     * Stores the members of the account that must not be duplicates
+     */
+    private final Set<Person> groupMembers = new LinkedHashSet<>();
+    /**
+     * Stores the transaction list of an account
+     */
     private final List<Transaction> transactionList = new ArrayList<>();
 
-    // ----- Name methods -----
+    /**
+     * The constructor requires a name as a means to make it unique.
+     * @param name  The account name
+     */
     public Account (String name) { this.accountName = Objects.requireNonNull(name); }
-    public String getAccountName () { return this.accountName; }
 
-    // ----- Member methods -----
+    /**
+     * Adds a member to the account. It must not be null
+     * @param person    The new member
+     */
     public void addMember (Person person) {
-        // Check every member. If there's a duplicate, throw.
-        for (Person groupMember : groupMembers) {
-            if (Objects.equals(groupMember.getFullName(), person.getFullName())) {
-                throw new IllegalArgumentException("Person is already a member");
-            }
+        if (!groupMembers.add(Objects.requireNonNull(person))) {
+            throw new IllegalArgumentException("ERR: " + person + " is already a member");
         }
-        // sai come si chiama un List<> che non ammette duplicati by-default? Set<>
-        groupMembers.add(Objects.requireNonNull(person));
     }
-    public List<Person> getGroupMembers () { return List.copyOf(groupMembers); } // vuoi rendere la lista modificabile anche se non produce side effects? ha senso?
 
-    // ----- Transaction methods -----
+    /**
+     * Adds a transaction to the list. Checks if it's null, if the value is 0 or if it's made in the future.
+     * Also increments the value of the requested transactions for the member that requested it.
+     * @param transaction   The requested transaction
+     */
     public void addTransaction (Transaction transaction) {
-        // visto che lo riusi, perché non metti in una variabile requestingUser() ?
-        if (!groupMembers.contains(transaction.requestingUser())) {
-            throw new IllegalArgumentException("Not a member of the account"); // pro-tip: definisci le tue personali eccezioni in un package apposito. A quelle semmai fai estendere il giusto tipo di eccezione. Il messaggio dovrebbe indicare specifiche aggiuntive, non specificare il tipo concreto di eccezione
+        Objects.requireNonNull(transaction, "ERR: Transaction must not be null");
+        Person requester = transaction.requestingUser();
+
+        if (!groupMembers.contains(requester)) {
+            // Defined custom exception, messages specify correct usage
+            throw new TransactionException("ERR: Must be a member of account to make transactions");
         }
 
         if (transaction.amount() == 0) {
-            throw new IllegalArgumentException("Empty transaction"); // fai bene attenzione: qui basta avere un TransactionException con messaggi diversi in base al contesto, anche se puoi esagerare e prevedere specifiche più intensive
+            throw new TransactionException("ERR: Transaction value must not be zero");
         }
 
         if (transaction.transactionDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Future date");
+            throw new TransactionException("ERR: Transaction must not have future dates");
         }
 
         // Check every member and do ++ to the transaction count of the requester.
         for (Person groupMember : groupMembers) {
-            if (groupMember.equals(transaction.requestingUser())) { // belle le classi di utility, ma davvero qua groupMember è non-null per definizione, quindi puoi tranquillamente usare equals
+            // Removed utility class with simplified expression
+            if (groupMember.equals(requester)) {
                 groupMember.increaseTransactionCount();
                 break;
             }
         }
-
-        transactionList.add(Objects.requireNonNull(transaction)); // che succede a riga 36 se transaction è null? mi sa che è tardi per questo controllo
+        transactionList.add(transaction);
     }
-    public List<Transaction> getTransactionList () { return Collections.unmodifiableList(transactionList); } //ottimo, ricorda che unmodifiableList rende non modificabile il riferimento che viene tornato, non fa side-effect dunque la collezione rimane modificabile concretamente
+
+    // ----- Getter methods -----
+    public String getAccountName () { return this.accountName; }
+    public Set<Person> getGroupMembers () { return Collections.unmodifiableSet(groupMembers); }
+    public List<Transaction> getTransactionList () { return Collections.unmodifiableList(transactionList); }
 
 }

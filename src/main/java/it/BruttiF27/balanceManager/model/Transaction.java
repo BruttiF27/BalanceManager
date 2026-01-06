@@ -3,11 +3,11 @@ package it.BruttiF27.balanceManager.model;
 import java.time.LocalDate;
 
 /**
- *  The record defines how a transaction is supposed to look like. It's got:
- *  - Person
- *  - Date
- *  - Amount of money requested/given
- *  - Small description
+ *  The record defines how a transaction is supposed to look like. Fields used:
+ *  - Person requestingUser         The account user that requested the transaction
+ *  - LocalDate transactionDate     The date when the transaction was requested
+ *  - double amount                 The amount of money requested/given
+ *  - String description            The reason for the transaction
  */
 
 public record Transaction (
