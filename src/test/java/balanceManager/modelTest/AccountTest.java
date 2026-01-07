@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AccountTest {
+public class AccountTest { // lo scrivo qua ma vale anche per l'altro test, ma una classe astratta con il BeforeEach e i campi protected? non sembra cattiva come idea
 
     // Required fields
     private Account accountTest;
