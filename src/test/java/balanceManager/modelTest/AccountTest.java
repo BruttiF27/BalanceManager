@@ -1,26 +1,21 @@
 package balanceManager.modelTest;
 
+import balanceManager.testUtils.SetupClass;
 import it.BruttiF27.balanceManager.exceptions.TransactionException;
 import it.BruttiF27.balanceManager.model.Person;
 import it.BruttiF27.balanceManager.model.Transaction;
 import it.BruttiF27.balanceManager.model.Account;
 import java.time.LocalDate;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AccountTest { // lo scrivo qua ma vale anche per l'altro test, ma una classe astratta con il BeforeEach e i campi protected? non sembra cattiva come idea
+public class AccountTest extends SetupClass {
 
-    // Required fields
-    private Account accountTest;
-    private Person personTest;
-    private Transaction transactionTest;
-
-    @BeforeEach // Forgot to add test setup here last time, my bad lmao
-    public void testSetup () {
-        accountTest = new Account("familyAccount");
-        personTest = new Person("Fun", "Guy");
+    @Override // Need an account and some members to perform tests
+    public void configureSetup () {
+        accountSetup();
+        membersSetup();
     }
 
     @Test // If we give a null name to account, throw exception.
@@ -34,28 +29,26 @@ public class AccountTest { // lo scrivo qua ma vale anche per l'altro test, ma u
 
     @Test // Checks if the user is trying to add a duplicate member. If so, throws.
     public void checkDuplicateAccountMember () {
-        accountTest.addMember(personTest);
-        assertThrows(IllegalArgumentException.class, () -> accountTest.addMember(new Person("Fun", "Guy")));
+        assertThrows(IllegalArgumentException.class, () -> accountTest.addMember(new Person("Mime", "Oney")));
     }
 
     @Test // Checks if the person requesting the transaction is a member of the account. If not, throws.
     public void checkTransactionRequestedByNotMember () {
-        transactionTest = new Transaction(personTest, LocalDate.now(), 100.00, "InvalidMember");
-        assertThrows(TransactionException.class, () -> accountTest.addTransaction(transactionTest));
+        Person personTest = new Person("Invalid", "Member");
+        transaction1 = new Transaction(personTest, LocalDate.now(), 100.00, "InvalidMember");
+        assertThrows(TransactionException.class, () -> accountTest.addTransaction(transaction1));
     }
 
     @Test // Checks if the transaction amount is 0. If yes, throws.
     public void checkNullTransactionValue () {
-        accountTest.addMember(personTest);
-        transactionTest = new Transaction(personTest, LocalDate.now(), 0, "InvalidAmount");
-        assertThrows(TransactionException.class, () -> accountTest.addTransaction(transactionTest));
+        transaction1 = new Transaction(accountMember1, LocalDate.now(), 0, "InvalidAmount");
+        assertThrows(TransactionException.class, () -> accountTest.addTransaction(transaction1));
     }
 
     @Test // Checks if the user gave a future date. If yes, throws.
     public void checkFutureTransactionDate () {
-        accountTest.addMember(personTest);
-        transactionTest = new Transaction(personTest, LocalDate.now().plusDays(1), 0, "FutureDate");
-        assertThrows(TransactionException.class, () -> accountTest.addTransaction(transactionTest));
+        transaction1 = new Transaction(accountMember1, LocalDate.now().plusDays(1), 0, "FutureDate");
+        assertThrows(TransactionException.class, () -> accountTest.addTransaction(transaction1));
     }
 
 }

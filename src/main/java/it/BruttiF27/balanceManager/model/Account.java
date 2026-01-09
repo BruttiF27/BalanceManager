@@ -66,27 +66,9 @@ public class Account {
             // Removed utility class with simplified expression
             if (groupMember.equals(requester)) {
                 groupMember.increaseTransactionCount();
-                break; //ottima ottimizzazione, bravo
+                break;
             }
         }
-
-        //groupMembers.stream().filter(requester::equals).forEach(Person::increaseTransactionCount) 
-        // non sono sicurissimo che scrivo da github su browser, ma questa roba dovrebbe essere equivalente al ciclo. Forse meno ottimizzata (?) ma non lo so
-        // tra l'altro ti fa notare un banalissimo check che dovresti fare ma che non fai perché tanto il codice ti nasconde il NullPointerException
-
-        /*
-        Assumiamo che transaction.requestingUser() == null
-        if(!groupMembers.contains(null) == TRUE
-        throw new TransactionException
-
-        ma non posso aggiungerlo al gruppo (requireNotNull in addMember)
-        bug! perché sono utente idiota e mi hai detto che transaction non deve essere null, non i suoi contenuti
-
-        con lo stream ti rendi conto di sto potenziale NPE perché fai requester::equals che di fatto si traduce in requester.equals(member) ma sappiamo per certo che solo member è not-null
-        */
-
-        //te lo lascio come commento di confronto, in realtà il tuo codice va più che bene ma volevo solo farti vedere il flusso da una prospettiva diversa, non per forza più corretta (anzi!)
-        
         transactionList.add(transaction);
     }
 
