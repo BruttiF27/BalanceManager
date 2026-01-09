@@ -19,7 +19,13 @@ Backend:
 - More tests
 - More error handling
 - Using JSON files to store data
+- Password management (cryptography - is this overkill? Lmao)
 
 Frontend:
 - Interactive GUI
+- Access window with password check (Don't have an account? Make one)
+- Main screen
+- Edit group members screen
+- See transactions screen
+- Add transaction screen
 - Graphs
